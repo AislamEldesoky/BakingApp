@@ -1,4 +1,4 @@
-package com.example.islameldesoky.bakingdesoky.recipedetails;
+package com.example.islameldesoky.bakingdesoky.ui.recipedetails;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.example.islameldesoky.bakingdesoky.R;
-import com.example.islameldesoky.bakingdesoky.recipelist.RecipeListActivity;
+import com.example.islameldesoky.bakingdesoky.ui.recipelist.RecipeListActivity;
 
 /**
  * An activity representing a single Recipe detail screen. This

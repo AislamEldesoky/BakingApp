@@ -1,17 +1,14 @@
-package com.example.islameldesoky.bakingdesoky.recipedetails;
+package com.example.islameldesoky.bakingdesoky.ui.recipedetails;
 
-import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.islameldesoky.bakingdesoky.R;
-import com.example.islameldesoky.bakingdesoky.recipelist.RecipeListActivity;
-import com.example.islameldesoky.bakingdesoky.dummy.DummyContent;
+import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
+import com.example.islameldesoky.bakingdesoky.ui.recipelist.RecipeListActivity;
 
 /**
  * A fragment representing a single Recipe detail screen.
@@ -29,7 +26,7 @@ public class RecipeDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Recipe mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,18 +39,18 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
-        }
+//        if (getArguments().containsKey(ARG_ITEM_ID)) {
+//            // Load the dummy content specified by the fragment
+//            // arguments. In a real-world scenario, use a Loader
+//            // to load content from a content provider.
+//            mItem = Recipe.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+//
+//            Activity activity = this.getActivity();
+//            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+//            if (appBarLayout != null) {
+//                appBarLayout.setTitle(mItem.content);
+//            }
+//        }
     }
 
     @Override
@@ -63,7 +60,7 @@ public class RecipeDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(mItem.details);
+//            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(mItem.details);
         }
 
         return rootView;
