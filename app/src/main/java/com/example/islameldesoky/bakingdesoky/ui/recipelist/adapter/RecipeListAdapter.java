@@ -1,5 +1,8 @@
 package com.example.islameldesoky.bakingdesoky.ui.recipelist.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.islameldesoky.bakingdesoky.R;
+import com.example.islameldesoky.bakingdesoky.businesslogic.Ingredient;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
+import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailActivity;
+import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailFragment;
 
 import java.util.List;
 
@@ -20,6 +26,7 @@ public class RecipeListAdapter
         extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
 
     private List<Recipe> recipes;
+    private List<Ingredient> ingredients;
     private final boolean mTwoPane;
     private final FragmentManager fragmentManager;
 
@@ -30,7 +37,7 @@ public class RecipeListAdapter
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecipeListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recipe_list_content, parent, false);
         return new ViewHolder(view);
@@ -38,29 +45,32 @@ public class RecipeListAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = recipes.get(position);
-        holder.mContentView.setText(recipes.get(position).getName());
+        holder.recipe = recipes.get(position);
+        holder.tvRecipeName.setText(recipes.get(position).getName());
 
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mTwoPane) {
-//                    Bundle arguments = new Bundle();
-//                    arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
-//                    RecipeDetailFragment fragment = new RecipeDetailFragment();
-//                    fragment.setArguments(arguments);
-//                    fragmentManager.beginTransaction()
-//                            .replace(R.id.recipe_detail_container, fragment)
-//                            .commit();
-//                } else {
-//                    Context context = v.getContext();
-//                    Intent intent = new Intent(context, RecipeDetailActivity.class);
-//                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
-//
-//                    context.startActivity(intent);
-//                }
-//            }
-//        });
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putSerializable(RecipeDetailFragment.ARG_ITEM_ID, holder.recipe);
+
+                    RecipeDetailFragment fragment = new RecipeDetailFragment();
+                    fragment.setArguments(arguments);
+
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.recipe_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = v.getContext();
+
+                    Intent intent = new Intent(context, RecipeDetailActivity.class);
+                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, holder.recipe);
+
+                    context.startActivity(intent);
+                }
+            }
+      });
     }
 
     @Override
@@ -75,18 +85,18 @@ public class RecipeListAdapter
 
     class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
-        final TextView mContentView;
-        Recipe mItem;
+        final TextView tvRecipeName;
+        Recipe recipe;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.content);
+            tvRecipeName = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + tvRecipeName.getText() + "'";
         }
     }
 }
