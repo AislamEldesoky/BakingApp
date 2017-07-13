@@ -1,5 +1,6 @@
 package com.example.islameldesoky.bakingdesoky.ui.recipedetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,10 @@ import android.widget.TextView;
 
 import com.example.islameldesoky.bakingdesoky.R;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
+import com.example.islameldesoky.bakingdesoky.ui.RecipeSteps.RecipeStepsActivity;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.adapter.IngredientListAdapter;
 
-
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment implements View.OnClickListener {
 
     public static final String ARG_ITEM_ID = "item_id";
 
@@ -53,6 +54,15 @@ public class RecipeDetailFragment extends Fragment {
             rvIngredients.setAdapter(ingredientListAdapter);
         }
 
+        rootView.findViewById(R.id.view_steps).setOnClickListener(this);
+
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), RecipeStepsActivity.class);
+        intent.putExtra(ARG_ITEM_ID, recipe);
+        startActivity(intent);
     }
 }

@@ -30,6 +30,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.recipelist.RecipeListActivity" />
         </activity>
+        <activity
+            android:name=".ui.RecipeSteps.RecipeStepsActivity"
+            android:label="Recipe Steps">
+
+        </activity>
+
+
+
     </application>
 
 </manifest>

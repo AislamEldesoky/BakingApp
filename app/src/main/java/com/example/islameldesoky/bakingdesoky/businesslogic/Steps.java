@@ -15,6 +15,8 @@ public class Steps implements Serializable {
     @Expose
     private String id;
 
+
+
     @SerializedName("shortDescription")
     @Expose
     private String ShortDescription;
@@ -30,4 +32,24 @@ public class Steps implements Serializable {
     @SerializedName("thumbnailURL")
     @Expose
     private String ThumbnailURL;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getShortDescription() {
+        return ShortDescription;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public String getVideoURL() {
+        return VideoURL;
+    }
+
+    public String getThumbnailURL() {
+        return ThumbnailURL;
+    }
 }
