@@ -15,14 +15,19 @@ import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Steps;
 import com.example.islameldesoky.bakingdesoky.ui.RecipeSteps.adapter.RecipeStepsAdapter;
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -34,7 +39,7 @@ import com.google.android.exoplayer2.util.Util;
  * Created by islam eldesoky on 12/07/2017.
  */
 
-public class RecipeStepsFragment extends Fragment {
+public class RecipeStepsFragment extends Fragment implements ExoPlayer.EventListener {
     public static final String ARG_ITEM_ID = "item_id";
 
     private RecipeStepsAdapter recipeStepsAdapter ;
@@ -55,10 +60,11 @@ public class RecipeStepsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //initializePlayer(VideoUri);
 
 
         mBundle = getArguments() == null ? getActivity().getIntent().getExtras() : getArguments();
+        initializePlayer(VideoUri.parse(step.getVideoURL()));
+
 
     }
 
@@ -66,6 +72,8 @@ public class RecipeStepsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
+        simpleExoPlayerView = ((SimpleExoPlayerView) rootView.findViewById(R.id.step_video));
+
 
 
         if (mBundle != null) {
@@ -82,16 +90,22 @@ public class RecipeStepsFragment extends Fragment {
             recipeStepsAdapter = new RecipeStepsAdapter(recipe.getSteps());
             rvSteps.setAdapter(recipeStepsAdapter);
         }
-       if(player==null){
-            VideoUri = Uri.parse(step.getVideoURL());
+
+
+
+        return rootView;
+    }
+    public void initializePlayer(Uri VideoUri){
+        if(player==null) {
+
             mainHandler = new Handler();
             TrackSelector trackSelector =
                     new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
-            simpleExoPlayerView = ((SimpleExoPlayerView) rootView.findViewById(R.id.step_video));
-                    player =
+            player =
                     ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
             simpleExoPlayerView.setPlayer(player);
+            player.addListener(this);
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
                     Util.getUserAgent(getActivity(), "BakingDesoky"), bandwidthMeter);
@@ -102,11 +116,44 @@ public class RecipeStepsFragment extends Fragment {
                     dataSourceFactory, extractorsFactory, null, null);
             player.prepare(videoSource);
         }
-
-
-        return rootView;
     }
-    public void initializePlayer(Uri VideoUri){
+
+    private void releasePlayer() {
+        player.stop();
+        player.release();
+        player = null;
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
 
     }
+
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+
+    }
+
+    @Override
+    public void onPositionDiscontinuity() {
+
+    }
+
+    
+
 }
