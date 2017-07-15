@@ -19,9 +19,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.recipe_detail_container, new RecipeDetailFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.recipe_detail_container, new RecipeDetailFragment())
+                    .commit();
+        }
     }
 }

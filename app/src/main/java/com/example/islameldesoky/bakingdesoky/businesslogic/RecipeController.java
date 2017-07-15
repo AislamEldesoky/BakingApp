@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.islameldesoky.bakingdesoky.ui.recipelist.RecipeListActivity;
+import com.example.islameldesoky.bakingdesoky.utils.App;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class RecipeController implements Callback<List<Recipe>> {
         if (response.isSuccessful()) {
             Log.d("RC", response.body().toString());
             activity.setRecipes(response.body());
+            App.getInstance().setRecipes(response.body());
         }
     }
 

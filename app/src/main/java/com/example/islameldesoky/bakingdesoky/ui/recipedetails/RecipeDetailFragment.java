@@ -2,6 +2,7 @@ package com.example.islameldesoky.bakingdesoky.ui.recipedetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,23 +15,25 @@ import com.example.islameldesoky.bakingdesoky.R;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
 import com.example.islameldesoky.bakingdesoky.ui.RecipeSteps.RecipeStepsActivity;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.adapter.IngredientListAdapter;
+import com.example.islameldesoky.bakingdesoky.utils.App;
+import com.orhanobut.hawk.Hawk;
 
 public class RecipeDetailFragment extends Fragment implements View.OnClickListener {
 
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_POSITION = "position";
 
     private IngredientListAdapter ingredientListAdapter;
     private RecyclerView rvIngredients;
-    private Bundle mBundle;
+    private int position;
     private Recipe recipe;
 
-    public RecipeDetailFragment() {
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBundle = getArguments() == null ? getActivity().getIntent().getExtras() : getArguments();
+
+        position = getArguments() == null ?
+                getActivity().getIntent().getIntExtra(ARG_POSITION, 1) :
+                getArguments().getInt(ARG_POSITION);
     }
 
     @Override
@@ -38,8 +41,8 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
 
-        if (mBundle != null) {
-            recipe = (Recipe) mBundle.getSerializable(RecipeDetailFragment.ARG_ITEM_ID);
+        if (Hawk.get(App.ARG_RECIPES) != null) {
+            recipe = App.getInstance().getRecipes().get(position);
 
             ((TextView) rootView.findViewById(R.id.tv_recipe_name)).setText(recipe.getName());
 
@@ -62,7 +65,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), RecipeStepsActivity.class);
-        intent.putExtra(ARG_ITEM_ID, recipe);
+        intent.putExtra(ARG_POSITION, position);
         startActivity(intent);
     }
 }

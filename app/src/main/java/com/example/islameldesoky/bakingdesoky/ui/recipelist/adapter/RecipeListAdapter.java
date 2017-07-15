@@ -44,7 +44,7 @@ public class RecipeListAdapter
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.recipe = recipes.get(position);
         holder.tvRecipeName.setText(recipes.get(position).getName());
 
@@ -53,7 +53,8 @@ public class RecipeListAdapter
             public void onClick(View v) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putSerializable(RecipeDetailFragment.ARG_ITEM_ID, holder.recipe);
+                    arguments.putInt(RecipeDetailFragment.ARG_POSITION, holder.getAdapterPosition());
+//                    arguments.putSerializable(RecipeDetailFragment.ARG_STEP_ID, holder.recipe.getSteps().get(position));
 
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
@@ -65,12 +66,12 @@ public class RecipeListAdapter
                     Context context = v.getContext();
 
                     Intent intent = new Intent(context, RecipeDetailActivity.class);
-                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, holder.recipe);
+                    intent.putExtra(RecipeDetailFragment.ARG_POSITION, holder.getAdapterPosition());
 
                     context.startActivity(intent);
                 }
             }
-      });
+        });
     }
 
     @Override

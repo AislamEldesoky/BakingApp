@@ -1,8 +1,6 @@
 package com.example.islameldesoky.bakingdesoky.ui.RecipeSteps;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,75 +10,47 @@ import android.view.ViewGroup;
 
 import com.example.islameldesoky.bakingdesoky.R;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
-import com.example.islameldesoky.bakingdesoky.businesslogic.Steps;
 import com.example.islameldesoky.bakingdesoky.ui.RecipeSteps.adapter.RecipeStepsAdapter;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
+import com.example.islameldesoky.bakingdesoky.utils.App;
+import com.orhanobut.hawk.Hawk;
+
+import static com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailFragment.ARG_POSITION;
+import static com.example.islameldesoky.bakingdesoky.utils.App.ARG_RECIPES;
 
 /**
  * Created by islam eldesoky on 12/07/2017.
  */
 
-public class RecipeStepsFragment extends Fragment implements ExoPlayer.EventListener {
-    public static final String ARG_ITEM_ID = "item_id";
+public class RecipeStepsFragment extends Fragment {
 
-    private RecipeStepsAdapter recipeStepsAdapter ;
+    private RecipeStepsAdapter recipeStepsAdapter;
     private RecyclerView rvSteps;
-    private Bundle mBundle;
-    SimpleExoPlayerView simpleExoPlayerView ;
-    SimpleExoPlayer player ;
-    private  Steps step ;
+    private int position;
     private Recipe recipe;
-    Handler mainHandler ;
-    Uri VideoUri ;
-    public RecipeStepsFragment(){
+
+    public RecipeStepsFragment() {
 
 
-
-    } ;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        mBundle = getArguments() == null ? getActivity().getIntent().getExtras() : getArguments();
-        initializePlayer(VideoUri.parse(step.getVideoURL()));
-
-
+        position = getArguments() == null ?
+                getActivity().getIntent().getIntExtra(ARG_POSITION, 1) :
+                getArguments().getInt(ARG_POSITION);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
-        simpleExoPlayerView = ((SimpleExoPlayerView) rootView.findViewById(R.id.step_video));
 
-
-
-        if (mBundle != null) {
-            recipe = (Recipe) mBundle.getSerializable(RecipeStepsFragment.ARG_ITEM_ID);
+        if (Hawk.get(ARG_RECIPES) != null) {
+            recipe = App.getInstance().getRecipes().get(position);
 
             rvSteps = (RecyclerView) rootView.findViewById(R.id.rv_steps);
-
 
             RecyclerView.LayoutManager manager = new LinearLayoutManager(rootView.getContext(),
                     LinearLayoutManager.VERTICAL,
@@ -91,11 +61,16 @@ public class RecipeStepsFragment extends Fragment implements ExoPlayer.EventList
             rvSteps.setAdapter(recipeStepsAdapter);
         }
 
-
-
         return rootView;
     }
-    public void initializePlayer(Uri VideoUri){
+
+
+
+
+
+
+
+  /*  public void initializePlayer(Uri VideoUri){
         if(player==null) {
 
             mainHandler = new Handler();
@@ -118,42 +93,13 @@ public class RecipeStepsFragment extends Fragment implements ExoPlayer.EventList
         }
     }
 
+
     private void releasePlayer() {
         player.stop();
         player.release();
         player = null;
     }
+*/
 
-    @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
-
-    }
-
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-    }
-
-    @Override
-    public void onLoadingChanged(boolean isLoading) {
-
-    }
-
-    @Override
-    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
-    }
-
-    @Override
-    public void onPlayerError(ExoPlaybackException error) {
-
-    }
-
-    @Override
-    public void onPositionDiscontinuity() {
-
-    }
-
-    
 
 }

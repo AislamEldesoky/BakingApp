@@ -27,7 +27,7 @@ public class Steps implements Serializable {
 
     @SerializedName("videoURL")
     @Expose
-    private String VideoURL;
+    private String videoURL;
 
     @SerializedName("thumbnailURL")
     @Expose
@@ -46,7 +46,7 @@ public class Steps implements Serializable {
     }
 
     public String getVideoURL() {
-        return VideoURL;
+        return videoURL;
     }
 
     public String getThumbnailURL() {
