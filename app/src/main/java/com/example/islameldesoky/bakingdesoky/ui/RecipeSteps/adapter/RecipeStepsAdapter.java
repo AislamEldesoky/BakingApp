@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
                 .load(steps.get(holder.getAdapterPosition()).getThumbnailURL())
                 .into(holder.mVideoThumbnail);
 
-        holder.mVideo.setOnClickListener(new View.OnClickListener() {
+        holder.mWatchVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(holder.mView.getContext(), RecipeStepVideo.class);
@@ -70,6 +71,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         final TextView mShortDescription;
         final TextView mDescription;
         final RelativeLayout mVideo;
+        final Button mWatchVideo ;
         final ImageView mVideoThumbnail;
         Steps mItem;
 
@@ -80,7 +82,8 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
             mShortDescription = (TextView) view.findViewById(R.id.step_ShortDescription);
             mDescription = (TextView) view.findViewById(R.id.step_Description);
             mVideo = (RelativeLayout) view.findViewById(R.id.step_video);
-            mVideoThumbnail = (ImageView) view.findViewById(R.id.step_video_thumbnail);
+            mWatchVideo = (Button) view.findViewById(R.id.video) ;
+                    mVideoThumbnail = (ImageView) view.findViewById(R.id.step_video_thumbnail);
         }
     }
 }

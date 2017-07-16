@@ -44,7 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Watch Video"/>
+            android:text="Watch Video"
+            android:id="@+id/video"/>
     </RelativeLayout>
 
 </LinearLayout>
