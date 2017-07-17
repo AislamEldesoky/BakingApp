@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.islameldesoky.bakingdesoky.R;
+import com.example.islameldesoky.bakingdesoky.R ;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -31,7 +31,7 @@ import com.google.android.exoplayer2.util.Util;
 import static com.example.islameldesoky.bakingdesoky.ui.RecipeSteps.adapter.RecipeStepsAdapter.ARG_VIDEO_URL;
 
 /**
- * Created by islam eldesoky on 15/07/2017.
+ * Created by islam eldesoky on 17/07/2017.
  */
 
 public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.EventListener {
@@ -119,4 +119,3 @@ public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.Even
 
     }
 }
-

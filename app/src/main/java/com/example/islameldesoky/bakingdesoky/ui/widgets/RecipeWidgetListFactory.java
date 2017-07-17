@@ -9,25 +9,29 @@ import android.widget.RemoteViewsService;
 import com.example.islameldesoky.bakingdesoky.R;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailFragment;
+import com.example.islameldesoky.bakingdesoky.utils.App;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by islam eldesoky on 16/07/2017.
+ * Created by islam eldesoky on 17/07/2017.
  */
 
-public class RecipeListViewFactory implements RemoteViewsService.RemoteViewsFactory {
-    private ArrayList<Recipe> recipes ;
+public class RecipeWidgetListFactory implements RemoteViewsService.RemoteViewsFactory {
+    public static final String ARG_POSITION = "position";
     Context mContext ;
-    public RecipeListViewFactory(Context applicationContext ){
-        this.mContext = applicationContext ;
+    private Recipe recipe;
+    private int position ;
+    private List<Recipe> recipes ;
+
+    public RecipeWidgetListFactory(Context applicationContext) {
+        this.mContext = applicationContext;
     }
+
     @Override
     public void onCreate() {
 
-        recipes = new ArrayList<Recipe>();
-
-
+        recipes =App.getInstance().getRecipes();
     }
 
     @Override
@@ -42,19 +46,22 @@ public class RecipeListViewFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public int getCount() {
-        return 1;
+        return recipes.size();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-        RemoteViews views = new RemoteViews(mContext.getPackageName(),R.layout.widget_item) ;
-        views.setTextViewText(R.id.item,recipes.get(position).getName());
+
+        recipe = App.getInstance().getRecipes().get(position);
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_layout);
+        views.setTextViewText(R.id.widget_recipe ,String.valueOf(recipe.getName()));
         Bundle extras = new Bundle();
-        extras.putLong(RecipeDetailFragment.ARG_POSITION, position);
+        extras.putString(RecipeDetailFragment.ARG_POSITION, recipe.getName());
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
-        views.setOnClickFillInIntent(R.id.item, fillInIntent);
+        views.setOnClickFillInIntent(R.id.widget_recipe, fillInIntent);
         return views ;
+
     }
 
     @Override
@@ -64,7 +71,7 @@ public class RecipeListViewFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override

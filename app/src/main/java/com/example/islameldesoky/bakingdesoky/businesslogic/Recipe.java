@@ -16,6 +16,11 @@ public class Recipe implements Serializable {
     @Expose
     private String name;
 
+
+
+    @SerializedName("imageURL")
+    @Expose
+    private String imageURL ;
     @SerializedName("ingredients")
     @Expose
     private List<Ingredient> ingredients;
@@ -38,5 +43,8 @@ public class Recipe implements Serializable {
 
     public List<Steps> getSteps() {
         return steps;
+    }
+    public String getImageURL() {
+        return imageURL;
     }
 }

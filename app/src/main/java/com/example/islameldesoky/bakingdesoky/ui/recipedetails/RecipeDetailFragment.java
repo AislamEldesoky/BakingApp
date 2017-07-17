@@ -21,6 +21,7 @@ import com.orhanobut.hawk.Hawk;
 public class RecipeDetailFragment extends Fragment implements View.OnClickListener {
 
     public static final String ARG_POSITION = "position";
+    public static final String EXTRA_APPWIDGET_ID = "recipes";
 
     private IngredientListAdapter ingredientListAdapter;
     private RecyclerView rvIngredients;

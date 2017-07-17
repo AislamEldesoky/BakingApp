@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.islameldesoky.bakingdesoky.R;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Ingredient;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
@@ -47,6 +49,9 @@ public class RecipeListAdapter
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.recipe = recipes.get(position);
         holder.tvRecipeName.setText(recipes.get(position).getName());
+        Glide.with(holder.mView.getContext())
+                .load(recipes.get(holder.getAdapterPosition()).getImageURL())
+                .into(holder.ivRecipeImage);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,12 +92,14 @@ public class RecipeListAdapter
     class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView tvRecipeName;
+        final ImageView ivRecipeImage ;
         Recipe recipe;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
             tvRecipeName = (TextView) view.findViewById(R.id.content);
+            ivRecipeImage = (ImageView) view.findViewById(R.id.recipe_image) ;
         }
 
         @Override
