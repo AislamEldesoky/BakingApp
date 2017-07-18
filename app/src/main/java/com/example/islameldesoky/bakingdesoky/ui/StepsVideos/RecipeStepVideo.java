@@ -75,6 +75,8 @@ public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.Even
         }
     }
 
+
+
     private void releasePlayer() {
         player.stop();
         player.release();
@@ -112,10 +114,12 @@ public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.Even
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        releasePlayer();
     }
+
+
 }

@@ -54,10 +54,12 @@ public class RecipeWidgetListFactory implements RemoteViewsService.RemoteViewsFa
 
         recipe = App.getInstance().getRecipes().get(position);
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_layout);
-        views.setTextViewText(R.id.widget_recipe ,String.valueOf(recipe.getName()));
-        Bundle extras = new Bundle();
-        extras.putString(RecipeDetailFragment.ARG_POSITION, recipe.getName());
+        views.setTextViewText(R.id.widget_recipe ,String.valueOf(recipe.getIngredients().get(position).getIngredient()));
         Intent fillInIntent = new Intent();
+        fillInIntent.setAction(RecipeWidgetProvider.ACTION_TOAST);
+        Bundle extras = new Bundle();
+        extras.putString(RecipeDetailFragment.ARG_POSITION, recipe.getIngredients().get(position).getIngredient());
+
         fillInIntent.putExtras(extras);
         views.setOnClickFillInIntent(R.id.widget_recipe, fillInIntent);
         return views ;
