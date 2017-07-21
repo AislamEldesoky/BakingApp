@@ -17,6 +17,7 @@ import com.example.islameldesoky.bakingdesoky.businesslogic.Ingredient;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailActivity;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailFragment;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ import java.util.List;
 public class RecipeListAdapter
         extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
 
+    public static final String LAST_POS_CLICKED = "last_pos_clicked";
     private List<Recipe> recipes;
     private List<Ingredient> ingredients;
     private final boolean mTwoPane;
@@ -45,6 +47,7 @@ public class RecipeListAdapter
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.recipe = recipes.get(position);
@@ -61,6 +64,7 @@ public class RecipeListAdapter
                     arguments.putInt(RecipeDetailFragment.ARG_POSITION, holder.getAdapterPosition());
 //                    arguments.putSerializable(RecipeDetailFragment.ARG_STEP_ID, holder.recipe.getSteps().get(position));
 
+
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
 
@@ -75,6 +79,8 @@ public class RecipeListAdapter
 
                     context.startActivity(intent);
                 }
+                Hawk.put(LAST_POS_CLICKED,position);
+
             }
         });
     }

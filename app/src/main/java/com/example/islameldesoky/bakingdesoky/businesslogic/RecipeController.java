@@ -46,6 +46,7 @@ public class RecipeController implements Callback<List<Recipe>> {
             Log.d("RC", response.body().toString());
             activity.setRecipes(response.body());
             App.getInstance().setRecipes(response.body());
+
         }
     }
 
