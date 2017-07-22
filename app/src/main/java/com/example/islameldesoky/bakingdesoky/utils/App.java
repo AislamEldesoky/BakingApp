@@ -18,8 +18,8 @@ public class App extends Application {
 
     public static final String ARG_RECIPES = "recipes";
     public static final String ARG_INGREDIENTS = "ingredients";
-    public static final String LAST_POS_CLICKED = "last_pos_clicked" ;
-    int position ;
+    public static final String LAST_POS_CLICKED = "last_pos_clicked";
+    int position = 0;
 
     public App() {
         instance = this;
@@ -29,21 +29,19 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Hawk.init(this).build();
-
-        position = Hawk.get(App.LAST_POS_CLICKED) ;
-
-
     }
 
     public static App getInstance() {
         return instance;
     }
+
     public void setRecipes(List<Recipe> recipes) {
         Hawk.put(ARG_RECIPES, recipes);
     }
 
-    public void setIngredients(List<Ingredient> ingredients){Hawk.put(ARG_INGREDIENTS ,getRecipes().get(position).getIngredients()) ;}
-
+    public void setIngredients(List<Ingredient> ingredients) {
+        Hawk.put(ARG_INGREDIENTS, ingredients);
+    }
 
     public List<Recipe> getRecipes() {
         return Hawk.get(ARG_RECIPES);
@@ -52,5 +50,8 @@ public class App extends Application {
     public List<Ingredient> getIngredients() {
         return Hawk.get(ARG_INGREDIENTS);
     }
-    public int getPosition(){return position;}
+
+    public int getPosition() {
+        return position;
+    }
 }

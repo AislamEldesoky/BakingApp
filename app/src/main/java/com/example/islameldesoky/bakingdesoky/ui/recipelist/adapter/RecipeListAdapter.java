@@ -17,6 +17,7 @@ import com.example.islameldesoky.bakingdesoky.businesslogic.Ingredient;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailActivity;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailFragment;
+import com.example.islameldesoky.bakingdesoky.utils.App;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
@@ -79,8 +80,9 @@ public class RecipeListAdapter
 
                     context.startActivity(intent);
                 }
-                Hawk.put(LAST_POS_CLICKED,position);
 
+                Hawk.put(LAST_POS_CLICKED, holder.getAdapterPosition());
+                App.getInstance().setIngredients(recipes.get(holder.getAdapterPosition()).getIngredients());
             }
         });
     }
@@ -98,14 +100,14 @@ public class RecipeListAdapter
     class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView tvRecipeName;
-        final ImageView ivRecipeImage ;
+        final ImageView ivRecipeImage;
         Recipe recipe;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
             tvRecipeName = (TextView) view.findViewById(R.id.content);
-            ivRecipeImage = (ImageView) view.findViewById(R.id.recipe_image) ;
+            ivRecipeImage = (ImageView) view.findViewById(R.id.recipe_image);
         }
 
         @Override

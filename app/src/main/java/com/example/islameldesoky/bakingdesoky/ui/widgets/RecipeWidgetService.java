@@ -8,7 +8,6 @@ import android.widget.RemoteViewsService;
 
 import com.example.islameldesoky.bakingdesoky.R;
 import com.example.islameldesoky.bakingdesoky.businesslogic.Ingredient;
-import com.example.islameldesoky.bakingdesoky.businesslogic.Recipe;
 import com.example.islameldesoky.bakingdesoky.ui.recipedetails.RecipeDetailFragment;
 import com.example.islameldesoky.bakingdesoky.utils.App;
 
@@ -28,33 +27,32 @@ public class RecipeWidgetService extends RemoteViewsService {
     }
 
 
-
     /**
      * Created by islam eldesoky on 17/07/2017.
      */
 
     public class RecipeWidgetListFactory implements RemoteViewsService.RemoteViewsFactory {
-        public static final String ARG_POSITION = "position";
-        Context mContext ;
-        private Recipe recipe;
-        private int position ;
-        private Ingredient ingredient ;
-        List<Ingredient> ingredients ;
+        Context mContext;
+        List<Ingredient> ingredients;
+        int size;
 
-        private List<Recipe> recipes ;
 
-        public RecipeWidgetListFactory(Context applicationContext, Intent intent) {
+        RecipeWidgetListFactory(Context applicationContext, Intent intent) {
             this.mContext = applicationContext;
+            ingredients = App.getInstance().getIngredients();
+
+            size = ingredients.size();
         }
 
         @Override
         public void onCreate() {
-            ingredients = App.getInstance().getIngredients();
+
         }
 
         @Override
         public void onDataSetChanged() {
-
+            ingredients = App.getInstance().getIngredients();
+            size = ingredients.size();
         }
 
         @Override
@@ -64,28 +62,31 @@ public class RecipeWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return ingredients.size();
+            return size;
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
 
-            recipes = App.getInstance().getRecipes();
             ingredients = App.getInstance().getIngredients();
-            ingredient = App.getInstance().getIngredients().get(position);
             RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_layout);
-            views.setTextViewText(R.id.widget_ingredient ,ingredients.get(position).getIngredient());
-            views.setTextViewText(R.id.widget_quantity,ingredients.get(position).getQuantity());
-            views.setTextViewText(R.id.widget_measure,ingredients.get(position).getMeasure());
-            Intent fillInIntent = new Intent();
-            fillInIntent.setAction(RecipeWidgetProvider.ACTION_TOAST);
-            Bundle extras = new Bundle();
-            extras.putString(RecipeDetailFragment.ARG_POSITION,ingredients.get(position).getIngredient());
 
-            fillInIntent.putExtras(extras);
-            views.setOnClickFillInIntent(R.id.widget_ingredient, fillInIntent);
-            return views ;
+            if (position < ingredients.size()) {
+                views.setTextViewText(R.id.widget_ingredient, ingredients.get(position).getIngredient());
+                views.setTextViewText(R.id.widget_quantity, ingredients.get(position).getQuantity());
+                views.setTextViewText(R.id.widget_measure, ingredients.get(position).getMeasure());
 
+                Intent fillInIntent = new Intent();
+                fillInIntent.setAction(RecipeWidgetProvider.ACTION_TOAST);
+                Bundle extras = new Bundle();
+                extras.putString(RecipeDetailFragment.ARG_POSITION, ingredients.get(position).getIngredient());
+
+                fillInIntent.putExtras(extras);
+                views.setOnClickFillInIntent(R.id.widget_ingredient, fillInIntent);
+
+            }
+
+            return views;
         }
 
         @Override

@@ -2,6 +2,7 @@ package com.example.islameldesoky.bakingdesoky.businesslogic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.islameldesoky.bakingdesoky.ui.recipelist.RecipeListActivity;
 import com.example.islameldesoky.bakingdesoky.utils.App;
@@ -46,12 +47,12 @@ public class RecipeController implements Callback<List<Recipe>> {
             Log.d("RC", response.body().toString());
             activity.setRecipes(response.body());
             App.getInstance().setRecipes(response.body());
-
         }
     }
 
     @Override
     public void onFailure(Call<List<Recipe>> call, Throwable t) {
         Log.d("RC", t.getMessage());
+        Toast.makeText(activity, "Failure to retrieve data! Please try again!", Toast.LENGTH_SHORT).show();
     }
 }
