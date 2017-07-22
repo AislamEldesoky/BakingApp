@@ -3,6 +3,7 @@ package com.example.islameldesoky.bakingdesoky.ui.widgets;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -84,9 +85,12 @@ public class RecipeWidgetService extends RemoteViewsService {
                 fillInIntent.putExtras(extras);
                 views.setOnClickFillInIntent(R.id.widget_ingredient, fillInIntent);
 
+                return views;
+            } else {
+                RemoteViews views1 = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_layout);
+                views1.setViewVisibility(R.id.llrootview, View.GONE);
+                return views1;
             }
-
-            return views;
         }
 
         @Override
