@@ -29,7 +29,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Hawk.init(this).build();
+
         position = Hawk.get(App.LAST_POS_CLICKED) ;
+
 
     }
 

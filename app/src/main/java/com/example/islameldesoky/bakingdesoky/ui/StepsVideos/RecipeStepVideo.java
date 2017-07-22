@@ -78,10 +78,41 @@ public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.Even
 
 
     private void releasePlayer() {
-        player.stop();
-        player.release();
-        player = null;
+        if(player!=null) {
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
+    public void initializePlayer(){
+        if (getIntent().getExtras().getString(ARG_VIDEO_URL) != null) {
+            stepVideoUrl = getIntent().getExtras().getString(ARG_VIDEO_URL);
+            if (player == null) {
+                VideoUri = Uri.parse(stepVideoUrl);
+                mainHandler = new Handler();
+                TrackSelector trackSelector =
+                        new DefaultTrackSelector();
+                LoadControl loadControl = new DefaultLoadControl();
+                player =
+                        ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+                simpleExoPlayerView.setPlayer(player);
+                player.addListener(this);
+                DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
+                        Util.getUserAgent(this, "BakingDesoky"), bandwidthMeter);
+
+                ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+                MediaSource videoSource = new ExtractorMediaSource(VideoUri,
+                        dataSourceFactory, extractorsFactory, null, null);
+                player.prepare(videoSource);
+                player.setPlayWhenReady(true);
+
+            }
+        }
+    }
+
+
 
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
@@ -113,6 +144,11 @@ public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.Even
     public void onPositionDiscontinuity() {
 
     }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        releasePlayer();
+    }
 
 
     @Override
@@ -120,6 +156,18 @@ public class RecipeStepVideo extends AppCompatActivity implements ExoPlayer.Even
         super.onStop();
         releasePlayer();
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        initializePlayer();
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        initializePlayer();
+    }
+
+
 
 
 }
